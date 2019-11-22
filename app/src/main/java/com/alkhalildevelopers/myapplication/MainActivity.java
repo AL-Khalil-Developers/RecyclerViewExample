@@ -14,6 +14,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements MyAdapter.OnBtnClickListener {
     RecyclerView myRecyclerView;
     List<MyModel> myModelList;
+    MyAdapter myAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +36,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnBtnCl
         myModelList.add(new MyModel("Welcome to Pakistan"));
         myModelList.add(new MyModel("Welcome to Pakistan"));
 
-
-        MyAdapter myAdapter = new MyAdapter(myModelList,this);
+        myAdapter = new MyAdapter(myModelList,this);
 
         myRecyclerView.setAdapter(myAdapter);
 
@@ -46,11 +46,17 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnBtnCl
     public void onShareBtnClick(int position) {
         String selectedText = myModelList.get(position).getTextLine();
         Toast.makeText(this, selectedText, Toast.LENGTH_SHORT).show();
-//        Intent share = new Intent(Intent.ACTION_SEND);
-//        share.setType("text/plain");
-//        String selectedText = myModelList.get(position).getTextLine();
-//        share.putExtra(Intent.EXTRA_TEXT,selectedText);
-//        startActivity(share);
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.putExtra(Intent.EXTRA_TEXT,selectedText);
+        startActivity(share);
+
+    }
+
+    @Override
+    public void onDeleteBtnClick(int position) {
+        myModelList.remove(position);
+        myAdapter.notifyItemRemoved(position);
 
     }
 }

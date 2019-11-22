@@ -43,12 +43,14 @@ public class MyAdapter extends RecyclerView.Adapter {
     public class myViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textLineTxt;
         Button shareBtn;
+        Button deleteBtn;
         OnBtnClickListener mOnBtnClickListener;
         public myViewHolder(@NonNull View itemView , final OnBtnClickListener mOnBtnClickListener) {
             super(itemView);
             this.mOnBtnClickListener = mOnBtnClickListener;
             textLineTxt = itemView.findViewById(R.id.textID);
             shareBtn = itemView.findViewById(R.id.shareBtnID);
+            deleteBtn = itemView.findViewById(R.id.deleteBtnID);
 
             shareBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -57,6 +59,18 @@ public class MyAdapter extends RecyclerView.Adapter {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION){
                             mOnBtnClickListener.onShareBtnClick(position);
+                        }
+                    }
+                }
+            });
+
+            deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnBtnClickListener != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            mOnBtnClickListener.onDeleteBtnClick(position);
                         }
                     }
                 }
@@ -71,5 +85,6 @@ public class MyAdapter extends RecyclerView.Adapter {
 
     public interface OnBtnClickListener{
         void onShareBtnClick(int position);
+        void onDeleteBtnClick(int position);
     }
 }
